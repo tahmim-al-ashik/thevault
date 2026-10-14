@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Walker Family Tree - The Walker Crown Vault</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: { extend: {
+                colors: { navy: '#0f172a', green: '#064e3b', gold: '#eab308', 'gold-hover': '#ca8a04' },
+                fontFamily: { sans: ['Inter','sans-serif'], serif: ['Playfair Display','serif'], script: ['Great Vibes','cursive'] }
+            }}
+        }
+    </script>
+    <style>
+        .branch-zone { cursor: pointer; transition: filter .25s; }
+        .branch-zone:hover { filter: drop-shadow(0 0 10px rgba(234,179,8,.55)); }
+        .branch-zone.active .branch-path { stroke: #eab308; }
+        .branch-zone.active .branch-leaf { fill: #eab308; }
+        .branch-zone.active .branch-label { fill: #eab308; font-weight: 700; }
+        .tab-btn.active { background: #0f172a; color: #fff; }
+        textarea:focus, input:focus { outline: none; border-color: #eab308; box-shadow: 0 0 0 3px rgba(234,179,8,.2); }
+        .version-body { white-space: pre-wrap; }
+    </style>
+</head>
+<body class="antialiased text-gray-800 bg-gray-50">
+
+    <header class="bg-navy text-white sticky top-0 z-50 shadow-md h-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <img src="logo.png" alt="The Walker Crown Vault Logo" class="h-14 w-auto object-contain rounded-lg group-hover:scale-105 transition-transform shadow-md">
+                <span class="font-serif font-bold text-lg hidden sm:block">The Walker Crown Vault</span>
+            </a>
+            <nav class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="index.html" class="text-gray-300 hover:text-white transition">Home</a>
+                <a href="family-tree.html" class="text-gold border-b-2 border-gold pb-1">Family Tree</a>
+                <a href="security.html" class="text-gray-300 hover:text-white transition">Security</a>
+                <a href="index.html#pricing" class="text-gray-300 hover:text-white transition">Pricing</a>
+            </nav>
+            <a href="login.html" class="bg-gold text-navy rounded-full px-6 py-2 text-sm font-bold hover:bg-gold-hover transition shadow-lg shadow-gold/20">Sign In</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="bg-navy text-white py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="font-serif text-4xl md:text-5xl font-bold mb-3">The Walker Family Tree</h1>
+                <p class="text-gray-300 max-w-2xl mx-auto font-light">Click any branch, the trunk, or the roots to open that part of the family. Every branch keeps its own profiles, linked people, ideas, and paperwork — sealed and stamped.</p>
+                <div class="mt-4 flex flex-wrap justify-center gap-2 text-xs">
+                    <span class="inline-flex items-center gap-1 bg-white/10 rounded-full px-3 py-1"><i class="fa-solid fa-mouse-pointer text-gold"></i> Clickable branches</span>
+                    <span class="inline-flex items-center gap-1 bg-white/10 rounded-full px-3 py-1"><i class="fa-solid fa-link text-gold"></i> Link A Branch</span>
+                    <span class="inline-flex items-center gap-1 bg-white/10 rounded-full px-3 py-1"><i class="fa-solid fa-lightbulb text-gold"></i> Ideas area</span>
+                    <span class="inline-flex items-center gap-1 bg-white/10 rounded-full px-3 py-1"><i class="fa-solid fa-stamp text-gold"></i> Locked, stamped history</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="grid lg:grid-cols-2 gap-8 items-start">
+
+                <!-- TREE -->
+                <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-4 sm:p-6">
+                    <svg id="tree" viewBox="0 0 800 620" class="w-full h-auto select-none" role="img" aria-label="Interactive Walker family tree">
+                        <!-- ground -->
+                        <ellipse cx="400" cy="560" rx="300" ry="26" fill="#064e3b" opacity="0.12"/>
+                        <!-- roots (clickable) -->
+                        <g id="zone-roots" class="branch-zone" data-branch="roots">
+                            <path d="M400,505 C370,530 340,540 300,548 M400,505 C430,532 470,540 510,546 M400,505 C395,530 392,545 388,556 M400,505 C410,528 415,542 420,552" stroke="#7c5a3a" stroke-width="9" fill="none" stroke-linecap="round"/>
+                            <ellipse cx="400" cy="540" rx="150" ry="34" fill="#eab308" opacity="0"/>
+                        </g>
+                        <!-- trunk (clickable, same as roots) -->
+                        <g id="zone-trunk" class="branch-zone" data-branch="roots">
+                            <path class="branch-path" d="M388,510 C386,440 390,360 394,270 L406,270 C410,360 414,440 412,510 Z" fill="#7c5a3a"/>
+                        </g>
+                        <!-- branches -->
+                        <g class="branch-zone" data-branch="tyrelle">
+                            <path class="branch-path" d="M396,400 C330,390 260,370 200,320" stroke="#7c5a3a" stroke-width="12" fill="none" stroke-linecap="round"/>
+                            <g fill="#166534" opacity=".85">
+                                <circle class="branch-leaf" cx="240" cy="330" r="14"/><circle class="branch-leaf" cx="290" cy="360" r="17"/><circle class="branch-leaf" cx="200" cy="320" r="18"/><circle class="branch-leaf" cx="330" cy="345" r="12"/><circle class="branch-leaf" cx="270" cy="330" r="10"/>
+                            </g>
+                            <text class="branch-label" x="200" y="290" text-anchor="middle" font-size="22" font-family="Playfair Display, serif" fill="#0f172a">Tyrelle</text>
+                        </g>
+                        <g class="branch-zone" data-branch="aisha">
+                            <path class="branch-path" d="M404,400 C470,390 540,370 600,320" stroke="#7c5a3a" stroke-width="12" fill="none" stroke-linecap="round"/>
+                            <g fill="#166534" opacity=".85">
+                                <circle class="branch-leaf" cx="560" cy="330" r="14"/><circle class="branch-leaf" cx="510" cy="360" r="17"/><circle class="branch-leaf" cx="600" cy="320" r="18"/><circle class="branch-leaf" cx="470" cy="345" r="12"/><circle class="branch-leaf" cx="530" cy="330" r="10"/>
+                            </g>
+                            <text class="branch-label" x="600" y="290" text-anchor="middle" font-size="22" font-family="Playfair Display, serif" fill="#0f172a">Aisha</text>
+                        </g>
+                        <g class="branch-zone" data-branch="princeton">
+                            <path class="branch-path" d="M396,330 C340,300 300,260 268,205" stroke="#7c5a3a" stroke-width="11" fill="none" stroke-linecap="round"/>
+                            <g fill="#15803d" opacity=".85">
+                                <circle class="branch-leaf" cx="300" cy="260" r="14"/><circle class="branch-leaf" cx="268" cy="205" r="17"/><circle class="branch-leaf" cx="330" cy="290" r="12"/><circle class="branch-leaf" cx="285" cy="235" r="10"/>
+                            </g>
+                            <text class="branch-label" x="262" y="175" text-anchor="middle" font-size="22" font-family="Playfair Display, serif" fill="#0f172a">Princeton</text>
+                        </g>
+                        <g class="branch-zone" data-branch="cairo">
+                            <path class="branch-path" d="M404,330 C460,300 500,260 532,205" stroke="#7c5a3a" stroke-width="11" fill="none" stroke-linecap="round"/>
+                            <g fill="#15803d" opacity=".85">
+                                <circle class="branch-leaf" cx="500" cy="260" r="14"/><circle class="branch-leaf" cx="532" cy="205" r="17"/><circle class="branch-leaf" cx="470" cy="290" r="12"/><circle class="branch-leaf" cx="515" cy="235" r="10"/>
+                            </g>
+                            <text class="branch-label" x="538" y="175" text-anchor="middle" font-size="22" font-family="Playfair Display, serif" fill="#0f172a">Cairo</text>
+                        </g>
+                        <g class="branch-zone" data-branch="wisdom">
+                            <path class="branch-path" d="M400,265 C400,210 400,170 400,120" stroke="#7c5a3a" stroke-width="12" fill="none" stroke-linecap="round"/>
+                            <g fill="#16a34a" opacity=".9">
+                                <circle class="branch-leaf" cx="400" cy="120" r="20"/><circle class="branch-leaf" cx="372" cy="150" r="14"/><circle class="branch-leaf" cx="428" cy="150" r="14"/><circle class="branch-leaf" cx="400" cy="180" r="12"/>
+                            </g>
+                            <text class="branch-label" x="400" y="88" text-anchor="middle" font-size="22" font-family="Playfair Display, serif" fill="#0f172a">Wisdom</text>
+                        </g>
+                        <!-- trunk label -->
+                        <text x="400" y="445" text-anchor="middle" font-size="18" font-family="Inter, sans-serif" fill="#fff" opacity=".95" style="pointer-events:none">Walker Roots</text>
+                        <text x="400" y="598" text-anchor="middle" font-size="15" font-family="Inter, sans-serif" fill="#064e3b" style="pointer-events:none">Grandparents · Great-Grandparents · Family History</text>
+                    </svg>
+                    <p class="text-xs text-gray-400 mt-2 text-center"><i class="fa-solid fa-circle-info mr-1"></i>Prototype: everything you change here is saved in this browser so the client can try it.</p>
+                </div>
+
+                <!-- PANEL -->
+                <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+                    <div class="bg-navy text-white p-6 flex items-center gap-4">
+                        <div id="panel-avatar" class="w-16 h-16 rounded-full bg-gold text-navy flex items-center justify-center font-serif font-bold text-2xl flex-shrink-0">WR</div>
+                        <div>
+                            <h2 id="panel-name" class="font-serif text-2xl font-bold">The Walker Roots</h2>
+                            <p id="panel-sub" class="text-gray-300 text-sm">Foundation · Grandparents &amp; Great-Grandparents</p>
+                        </div>
+                    </div>
+                    <div class="flex border-b border-gray-200 text-sm font-medium">
+                        <button class="tab-btn active flex-1 py-3 px-2 hover:bg-gray-50 transition" data-tab="profile"><i class="fa-solid fa-user mr-1"></i>Profile</button>
+                        <button class="tab-btn flex-1 py-3 px-2 hover:bg-gray-50 transition" data-tab="link"><i class="fa-solid fa-link mr-1"></i>Link A Branch</button>
+                        <button class="tab-btn flex-1 py-3 px-2 hover:bg-gray-50 transition" data-tab="ideas"><i class="fa-solid fa-lightbulb mr-1"></i>Ideas</button>
+                        <button class="tab-btn flex-1 py-3 px-2 hover:bg-gray-50 transition" data-tab="docs"><i class="fa-solid fa-folder-open mr-1"></i>Paperwork</button>
+                    </div>
+                    <div class="p-6 min-h-[420px]">
+                        <div id="tab-profile" class="tab-panel"></div>
+                        <div id="tab-link" class="tab-panel hidden"></div>
+                        <div id="tab-ideas" class="tab-panel hidden"></div>
+                        <div id="tab-docs" class="tab-panel hidden"></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-navy pt-10 pb-6 border-t border-gray-800 mt-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-gray-600">
+            <p>&copy; 2026 The Walker Crown Vault. All rights reserved.</p>
+            <div class="flex gap-4 justify-center mt-2">
+                <a href="#" class="hover:text-gray-400 transition">Privacy Policy</a>
+                <a href="#" class="hover:text-gray-400 transition">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+<script>
+/* ---------- Seed data ---------- */
+const SEED = {
+    people: ["Tyrelle Walker","Aisha Walker","Princeton Walker","Cairo Walker","Wisdom Walker","Eleanor Walker (Grandmother)","Marcus Walker (Grandfather)","Ruth Walker (Great-Grandmother)","Samuel Walker (Great-Grandfather)"],
+    branches: {
+        roots: {
+            name: "The Walker Roots", initials: "WR", sub: "Foundation · Grandparents & Great-Grandparents",
+            bio: "Everything grows from the roots. This branch holds the Walkers who came before: grandparents, great-grandparents, the family history, and the timeline of how the Walker legacy began.",
+            accomplishments: ["Family history archive","Generational timeline","Ancestral records"],
+            linked: ["Tyrelle Walker","Aisha Walker","Princeton Walker","Cairo Walker","Wisdom Walker"],
+            timeline: [
+                { year: "1920s", text: "Samuel & Ruth Walker lay the family's foundation." },
+                { year: "1950s", text: "Marcus & Eleanor Walker carry the legacy forward." },
+                { year: "Today", text: "Five branches grow: Tyrelle, Aisha, Princeton, Cairo, and Wisdom." }
+            ],
+            ideas: [],
+            docs: [ { title: "Family History Record", versions: [ { text: "The Walker family story begins with Samuel and Ruth Walker...", by: "Family Archivist" , ts: seedTs(-30)} ] } ]
+        },
+        tyrelle: {
+            name: "Tyrelle", initials: "TW", sub: "Branch of the Family Tree",
+            bio: "Profile biography for Tyrelle. Add their story, background, and what makes this branch of the family unique.",
+            accomplishments: ["Add accomplishments here"],
+            linked: ["Tyrelle Walker"], timeline: [], ideas: [],
+            docs: [ { title: "Tyrelle — Important Paperwork", versions: [ { text: "First version of this document.", by: "Tyrelle Walker", ts: seedTs(-7)} ] } ]
+        },
+        aisha: {
+            name: "Aisha", initials: "AW", sub: "Branch of the Family Tree",
+            bio: "Profile biography for Aisha. Add their story, background, and what makes this branch of the family unique.",
+            accomplishments: ["Add accomplishments here"],
+            linked: ["Aisha Walker"], timeline: [], ideas: [],
+            docs: [ { title: "Aisha — Important Paperwork", versions: [ { text: "First version of this document.", by: "Aisha Walker", ts: seedTs(-7)} ] } ]
+        },
+        princeton: {
+            name: "Princeton", initials: "PW", sub: "Branch of the Family Tree",
+            bio: "Profile biography for Princeton. Add their story, background, and what makes this branch of the family unique.",
+            accomplishments: ["Add accomplishments here"],
+            linked: ["Princeton Walker"], timeline: [], ideas: [],
+            docs: [ { title: "Princeton — Important Paperwork", versions: [ { text: "First version of this document.", by: "Princeton Walker", ts: seedTs(-7)} ] } ]
+        },
+        cairo: {
+            name: "Cairo", initials: "CW", sub: "Branch of the Family Tree",
+            bio: "Profile biography for Cairo. Add their story, background, and what makes this branch of the family unique.",
+            accomplishments: ["Add accomplishments here"],
+            linked: ["Cairo Walker"], timeline: [], ideas: [],
+            docs: [ { title: "Cairo — Important Paperwork", versions: [ { text: "First version of this document.", by: "Cairo Walker", ts: seedTs(-7)} ] } ]
+        },
+        wisdom: {
+            name: "Wisdom", initials: "WW", sub: "Branch of the Family Tree",
+            bio: "Profile biography for Wisdom. Add their story, background, and what makes this branch of the family unique.",
+            accomplishments: ["Add accomplishments here"],
+            linked: ["Wisdom Walker"], timeline: [], ideas: [],
+            docs: [ { title: "Wisdom — Important Paperwork", versions: [ { text: "First version of this document.", by: "Wisdom Walker", ts: seedTs(-7)} ] } ]
+        }
+    }
+};
+function seedTs(daysAgo){ const d = new Date(); d.setDate(d.getDate()+daysAgo); return d.toISOString(); }
+
+/* ---------- State ---------- */
+const LS_KEY = "wcv-tree-v1";
+let state;
+try { state = JSON.parse(localStorage.getItem(LS_KEY)) || structuredClone(SEED); }
+catch(e){ state = structuredClone(SEED); }
+let currentBranch = "roots";
+let currentTab = "profile";
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function fmtTs(iso){
+    const d = new Date(iso);
+    return d.toLocaleDateString(undefined,{year:"numeric",month:"short",day:"numeric"}) + " · " + d.toLocaleTimeString(undefined,{hour:"2-digit",minute:"2-digit"});
+}
+function save(){ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
+function branch(){ return state.branches[currentBranch]; }
+
+/* ---------- Renderers ---------- */
+function renderAll(){
+    const b = branch();
+    $("#panel-avatar").textContent = b.initials;
+    $("#panel-name").textContent = b.name;
+    $("#panel-sub").textContent = b.sub;
+    document.querySelectorAll(".branch-zone").forEach(z => z.classList.toggle("active", z.dataset.branch === currentBranch));
+    document.querySelectorAll(".tab-btn").forEach(t => t.classList.toggle("active", t.dataset.tab === currentTab));
+    document.querySelectorAll(".tab-panel").forEach(p => p.classList.add("hidden"));
+    $("#tab-"+currentTab).classList.remove("hidden");
+    ({profile:renderProfile, link:renderLink, ideas:renderIdeas, docs:renderDocs})[currentTab]();
+}
+
+function renderProfile(){
+    const b = branch();
+    let html = `<p class="text-gray-600 text-sm leading-relaxed mb-5">${esc(b.bio)}</p>`;
+    html += `<h4 class="font-bold text-navy text-sm uppercase tracking-wider mb-3"><i class="fa-solid fa-trophy text-gold mr-2"></i>Accomplishments</h4>`;
+    html += `<ul class="space-y-2 mb-6">` + b.accomplishments.map(a =>
+        `<li class="flex items-center gap-2 text-sm text-gray-600"><i class="fa-solid fa-check text-green"></i>${esc(a)}</li>`).join("") + `</ul>`;
+    if (b.timeline && b.timeline.length){
+        html += `<h4 class="font-bold text-navy text-sm uppercase tracking-wider mb-3"><i class="fa-solid fa-timeline text-gold mr-2"></i>Family Timeline</h4>`;
+        html += `<div class="border-l-2 border-gold/50 ml-2 pl-4 space-y-4">` + b.timeline.map(t =>
+            `<div><div class="text-xs font-bold text-gold">${esc(t.year)}</div><div class="text-sm text-gray-600">${esc(t.text)}</div></div>`).join("") + `</div>`;
+    }
+    html += `<p class="text-xs text-gray-400 mt-6"><i class="fa-solid fa-camera mr-1"></i>Photo upload slots can be added here for each profile.</p>`;
+    $("#tab-profile").innerHTML = html;
+}
+
+function renderLink(){
+    const b = branch();
+    const total = state.people.length, n = b.linked.length;
+    let html = `
+        <div class="bg-navy/5 border border-navy/10 rounded-xl p-4 mb-5">
+            <h4 class="font-bold text-navy mb-1"><i class="fa-solid fa-link text-gold mr-2"></i>Link A Branch</h4>
+            <p class="text-sm text-gray-600">Choose exactly who is part of this branch. <strong>${n} of ${total}</strong> people are linked — everyone else is <em>not</em> part of this link and cannot see this branch.</p>
+        </div>
+        <div class="space-y-2 max-h-72 overflow-y-auto pr-1">`;
+    html += state.people.map(p => {
+        const on = b.linked.includes(p);
+        return `<label class="flex items-center justify-between bg-gray-50 border ${on?"border-gold":"border-gray-200"} rounded-lg px-4 py-3 cursor-pointer hover:border-gold transition">
+            <span class="text-sm font-medium ${on?"text-navy":"text-gray-500"}"><i class="fa-solid ${on?"fa-user-check text-green":"fa-user text-gray-300"} mr-2"></i>${esc(p)}</span>
+            <input type="checkbox" data-person="${esc(p)}" ${on?"checked":""} class="link-toggle w-5 h-5 accent-[#eab308]">
+        </label>`;
+    }).join("") + `</div>
+        <p class="text-xs text-gray-400 mt-4"><i class="fa-solid fa-shield-halved mr-1"></i>Each branch is its own permission zone. Linking is per-person, never automatic.</p>`;
+    $("#tab-link").innerHTML = html;
+    document.querySelectorAll(".link-toggle").forEach(cb => cb.addEventListener("change", e => {
+        const p = e.target.dataset.person;
+        const i = b.linked.indexOf(p);
+        if (e.target.checked && i === -1) b.linked.push(p);
+        if (!e.target.checked && i !== -1) b.linked.splice(i,1);
+        save(); renderLink();
+    }));
+}
+
+function renderIdeas(){
+    const b = branch();
+    let html = `
+        <div class="bg-navy/5 border border-navy/10 rounded-xl p-4 mb-5">
+            <h4 class="font-bold text-navy mb-1"><i class="fa-solid fa-lightbulb text-gold mr-2"></i>Ideas Area</h4>
+            <p class="text-sm text-gray-600">Write freely — dreams, plans, memories, anything. Every idea is saved with a date &amp; time stamp.</p>
+        </div>
+        <textarea id="idea-input" rows="3" placeholder="Type your idea here in your own words..." class="w-full border border-gray-300 rounded-lg p-3 text-sm mb-3"></textarea>
+        <button id="idea-save" class="bg-navy text-white text-sm font-bold px-6 py-2.5 rounded-full hover:bg-gray-800 transition mb-6"><i class="fa-solid fa-plus mr-1"></i> Save Idea</button>
+        <div class="space-y-3">`;
+    if (!b.ideas.length) html += `<p class="text-sm text-gray-400 italic">No ideas yet — write the first one above.</p>`;
+    html += b.ideas.slice().reverse().map(i => `
+        <div class="border border-gray-200 rounded-lg p-4">
+            <p class="text-sm text-gray-700 version-body">${esc(i.text)}</p>
+            <p class="text-xs text-gray-400 mt-2"><i class="fa-solid fa-stamp mr-1"></i>Saved ${fmtTs(i.ts)}</p>
+        </div>`).join("") + `</div>`;
+    $("#tab-ideas").innerHTML = html;
+    $("#idea-save").addEventListener("click", () => {
+        const v = $("#idea-input").value.trim();
+        if (!v) return;
+        b.ideas.push({ text: v, ts: new Date().toISOString() });
+        save(); renderIdeas();
+    });
+}
+
+function renderDocs(){
+    const b = branch();
+    let html = `
+        <div class="bg-green/10 border border-green/20 rounded-xl p-4 mb-5">
+            <h4 class="font-bold text-navy mb-1"><i class="fa-solid fa-file-shield text-green mr-2"></i>Paperwork — Sealed History</h4>
+            <p class="text-sm text-gray-600">Editing never erases. Each edit creates a <strong>new stamped version</strong>; the previous version is <strong>locked</strong> and kept forever. Nothing is ever deleted.</p>
+        </div>`;
+    html += b.docs.map((d, di) => {
+        const vers = d.versions;
+        const latest = vers[vers.length-1];
+        let h = `<div class="border border-gray-200 rounded-xl p-5 mb-4">
+            <h5 class="font-bold text-navy mb-1"><i class="fa-solid fa-file-lines text-gold mr-2"></i>${esc(d.title)}</h5>
+            <p class="text-xs text-gray-400 mb-3">${vers.length} version${vers.length>1?"s":""} · latest stamped ${fmtTs(latest.ts)}</p>
+            <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-3">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-xs font-bold text-navy">CURRENT VERSION</span>
+                    <span class="text-xs text-gray-400"><i class="fa-solid fa-stamp mr-1"></i>${fmtTs(latest.ts)}</span>
+                </div>
+                <p class="text-sm text-gray-700 version-body">${esc(latest.text)}</p>
+            </div>`;
+        if (vers.length > 1){
+            h += `<details class="mb-3"><summary class="text-sm text-navy font-semibold cursor-pointer hover:text-gold transition"><i class="fa-solid fa-lock text-gray-400 mr-1"></i>Previous locked versions (${vers.length-1})</summary>
+                <div class="mt-2 space-y-2">` +
+                vers.slice(0,-1).reverse().map((v, k) => `
+                    <div class="bg-navy/5 border border-navy/10 rounded-lg p-3 opacity-90">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-xs font-bold text-gray-500"><i class="fa-solid fa-lock mr-1"></i>LOCKED · v${vers.length-1-k}</span>
+                            <span class="text-xs text-gray-400"><i class="fa-solid fa-stamp mr-1"></i>${fmtTs(v.ts)}</span>
+                        </div>
+                        <p class="text-sm text-gray-500 version-body">${esc(v.text)}</p>
+                    </div>`).join("") + `</div></details>`;
+        }
+        h += `<textarea id="doc-edit-${di}" rows="2" placeholder="Type the updated wording — it will be saved as a new stamped version..." class="w-full border border-gray-300 rounded-lg p-3 text-sm mb-2"></textarea>
+            <button data-doc="${di}" class="doc-save bg-green text-white text-sm font-bold px-6 py-2.5 rounded-full hover:bg-green-800 transition"><i class="fa-solid fa-stamp mr-1"></i> Save as New Version</button>
+        </div>`;
+        return h;
+    }).join("");
+    $("#tab-docs").innerHTML = html;
+    document.querySelectorAll(".doc-save").forEach(btn => btn.addEventListener("click", () => {
+        const di = +btn.dataset.doc;
+        const v = $("#doc-edit-"+di).value.trim();
+        if (!v) return;
+        b.docs[di].versions.push({ text: v, by: b.name, ts: new Date().toISOString() });
+        save(); renderDocs();
+    }));
+}
+
+/* ---------- Events ---------- */
+document.querySelectorAll(".branch-zone").forEach(z => z.addEventListener("click", () => {
+    currentBranch = z.dataset.branch;
+    currentTab = "profile";
+    renderAll();
+}));
+document.querySelectorAll(".tab-btn").forEach(t => t.addEventListener("click", () => {
+    currentTab = t.dataset.tab;
+    renderAll();
+}));
+
+renderAll();
+</script>
+</body>
+</html>
